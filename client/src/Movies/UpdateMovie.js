@@ -2,10 +2,9 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import MovieCard from "./MovieCard";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 
 export default function UpdateMovie(props) {
-  console.log(props);
-
   const updateMovie = selectedMovie => {
     axios
       .put(
@@ -16,6 +15,7 @@ export default function UpdateMovie(props) {
         console.log(res);
         const setMovie = props.setMovie;
         setMovie(res.data);
+        props.history.push(`/movies/${res.data.id}`);
       })
       .catch(err => {
         console.log(err);
@@ -24,7 +24,9 @@ export default function UpdateMovie(props) {
 
   return (
     <div>
-      <MovieCard movie={props.movie} />
+      <div className="save-wrapper">
+        <MovieCard movie={props.movie} />
+      </div>
       <Formik
         key={props.movie.id}
         initialValues={{

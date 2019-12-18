@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import MovieCard from "./MovieCard";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 export default class Movie extends React.Component {
   constructor(props) {
@@ -39,6 +39,19 @@ export default class Movie extends React.Component {
     this.setState(this.props.movie);
   };
 
+  deleteMovie = () => {
+    const id = this.state.movie.id;
+    axios
+      .delete(`http://localhost:5000/api/movies/${id}`)
+      .then(res => {
+        console.log(res);
+        this.props.history.push(`/`);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   render() {
     if (!this.state.movie) {
       return <div>Loading movie information...</div>;
@@ -57,6 +70,9 @@ export default class Movie extends React.Component {
         >
           Edit
         </Link>
+        <div className="delete-button" onClick={this.deleteMovie}>
+          Delete
+        </div>
       </div>
     );
   }
