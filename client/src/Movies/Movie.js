@@ -36,6 +36,7 @@ export default class Movie extends React.Component {
   editMovie = () => {
     const setMovie = this.props.setMovie;
     setMovie(this.state.movie);
+    this.setState(this.props.movie);
   };
 
   render() {
